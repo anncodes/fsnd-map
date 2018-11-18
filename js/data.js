@@ -1,1 +1,0 @@
-//My restaurant locations in Lausanne
