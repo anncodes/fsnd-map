@@ -18,3 +18,12 @@ This application features a map of Barcelona neighborhood.  A single page map wh
 	<li>Open index.html</li>
 
 </ol>
+
+# Help and references
+<ul>
+	<li><a href="https://classroom.udacity.com/nanodegrees/nd004/parts/135b6edc-f1cd-4cd9-b831-1908ede75737/modules/271165859175460/lessons/3310298553/concepts/31806585980923">Udacity Building the Move Planner App</a></li>
+	<li><a href="https://knockoutjs.com/">Knockoutjs Documentation</a></li>
+	<li><a href="https://developers.google.com/maps/documentation/javascript/styling"> Start styling your map-Google Maps Platform</a></li>
+	<li><a href="https://www.mediawiki.org/wiki/API:Main_page">MediaWiki API</a></li>
+	<li><a heref="https://www.mediawiki.org/wiki/Special:ApiSandbox">MediaWiki API Sandbox</a></li>
+</ul>
