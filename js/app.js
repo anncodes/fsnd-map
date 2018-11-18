@@ -20,7 +20,7 @@ function initMap() {
 		center: Barcelona,
 		zoom: 12,
 		gestureHandling: 'cooperative',
-		styles: styles
+		styles: styles //apply a different style to the map
 });
 
 var infoWindow = new google.maps.InfoWindow();
@@ -44,7 +44,8 @@ var bounds = new google.maps.LatLngBounds();
 	});
 	//Push the marker to our array of markers.
     markers.push(marker);
-	ViewModel.myLocations()[i].marker = marker;
+    //List of my Barcelona locations on the sidebar 
+	  ViewModel.myLocations()[i].marker = marker;
 
 	//Create an onclick event to open an infowindow at each markers.
 	marker.addListener('click', function() {
@@ -56,10 +57,10 @@ var bounds = new google.maps.LatLngBounds();
     map.fitBounds(bounds);
  }
  
-//This function populates the infoWindow when marker is clicked
+//This function populates the infoWindow when marker is clicked. 
 function populateInfoWindow(marker, infoWindow) { 
 	var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wikiCallback';
-    
+    // In case Wikipedia fails
     var wikiRequestTimeout = setTimeout(function(){
 		infoWindow.setContent("failed to get wikipedia resources");
 	}, 8000);
@@ -72,11 +73,11 @@ function populateInfoWindow(marker, infoWindow) {
 
 			var artUrl = data[3][0];
 			var artExtract = data[2][0];
-
+      //if the article URL is declared as undefined, the infowindow will display the location on my listing above.
 			if (artUrl == undefined) {
-				infoWindow.setContent('no wiki content match');
+				infoWindow.setContent('no Wikipedia content match');
 				infoWindow.open(map, marker);
-
+      //if it matches a Wiki content, then infoWindow will be populated by Wiki article extract and article URL.
 			}else{
 				infoWindow.marker = marker;
 				infoWindow.setContent('<h4>'+marker.title+'</h4>'+'<p>'+ artExtract+'</p>'+'<a href="'+artUrl+'">'+artUrl+'</a>');
@@ -86,15 +87,14 @@ function populateInfoWindow(marker, infoWindow) {
 		}
 	})
 }
-
-	
+//Building my location	
 var Location = function(data){
   var self = this;
   this.title = data.title;
   this.location = data.location;
   this.show = ko.observable(true);
 };
-
+//ViewModel - display Barcelona locations list and filter locations matching input key words
 var ViewModel = function() {
 	var self = this;
 	this.myLocations = ko.observableArray();
@@ -104,18 +104,20 @@ var ViewModel = function() {
     	var place = new Location(locationsBarcelona[j]);
    		self.myLocations.push(place);
   }
+  // filters map markers according to match with user key words
   this.searchFilter = ko.computed(function() {
     var filter = self.filterString().toLowerCase();
     for (i = 0; i < self.myLocations().length; i++) {
       if (self.myLocations()[i].title.toLowerCase().indexOf(filter) > -1){
         self.myLocations()[i].show(true);
         if (self.myLocations()[i].marker) {
-          self.myLocations()[i].marker.setVisible(true); // shows/filters map markers according to match with user key words
+          self.myLocations()[i].marker.setVisible(true); 
         }
       } else {
-        self.myLocations()[i].show(false); // hides locations according to match with user key words
+        // hides locations according to match with user key words
+        self.myLocations()[i].show(false); 
         if (self.myLocations()[i].marker) {
-          self.myLocations()[i].marker.setVisible(false); // hides map markers according to match with user key words
+          self.myLocations()[i].marker.setVisible(false); 
         }
       }
     }
