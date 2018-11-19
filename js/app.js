@@ -133,11 +133,13 @@ var ViewModel = function() {
   this.showLocation = function(locations) {
     google.maps.event.trigger(locations.marker, "click");
   };
-  this.mapError = function(){
-  	alert("Google maps failed to load.  Please check your internet connection or try again to load.")
-  }
+  
 };
 
 ViewModel = new ViewModel();
 
 ko.applyBindings(ViewModel);
+//Google Map error stand-alone function
+this.mapError = function(){
+  	alert("Google maps failed to load.  Please check your internet connection or try again to load.")
+  }
