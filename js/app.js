@@ -45,13 +45,14 @@ var bounds = new google.maps.LatLngBounds();
 	//Push the marker to our array of markers.
     markers.push(marker);
     //List of my Barcelona locations on the sidebar 
-	  ViewModel.myLocations()[i].marker = marker;
+	ViewModel.myLocations()[i].marker = marker;
 
 	//Create an onclick event to open an infowindow at each markers.
 	marker.addListener('click', function() {
 		populateInfoWindow(this, infoWindow);
 		infoWindow.setContent('');
 	});
+
 	bounds.extend(markers[i].position);
   }
     map.fitBounds(bounds);
@@ -84,7 +85,13 @@ function populateInfoWindow(marker, infoWindow) {
                 infoWindow.open(map, marker);
 			};
 		    clearTimeout(wikiRequestTimeout);
+	        //sets animation to bounce twice when marker is clicked
+		    marker.setAnimation(google.maps.Animation.BOUNCE);
+		    setTimeout(function(){
+			   marker.setAnimation(null);
+		}, 2130);
 		}
+
 	})
 }
 //Building my location	
