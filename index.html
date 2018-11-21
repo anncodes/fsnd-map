@@ -5,31 +5,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>FSND Neighborhood Map Project</title>
-
-         <!-- Bootstrap CSS CDN -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <title>Udacity FSND Neighborhood map</title>
+        <!--Knockout.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
-
+        <!-- Bootstrap CSS CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
         <!-- Our Custom CSS -->
         <link rel="stylesheet" href="css/style.css">
+        <!-- Scrollbar Custom CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+        
     </head>
-
     <body>
 
         <div class="wrapper">
             <!-- Sidebar Holder -->
             <nav id="sidebar">
+                <div id="dismiss">
+                    <i class="glyphicon glyphicon-arrow-left"></i>
+                </div>
+
                 <div class="sidebar-header">
                     <h3>Barcelona Neighborhood Map</h3>
                 </div>
+
                 <input placeholder="Search" id="searchbar" type="search" data-bind="textInput: filterString, valueUpdate: 'afterkeydown'"/ >
                 <ul class="list-unstyled components" data-bind="foreach:myLocations">
                     <li data-bind="text: title, click:$parent.showLocation, visible: show"></li>
                     
                 </ul>
 
-                
             </nav>
 
             <!-- Page Content Holder -->
@@ -41,52 +47,55 @@
                         <div class="navbar-header">
                             <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
                                 <i class="glyphicon glyphicon-align-left"></i>
-                                <span> </span>
+                                <span></span>
                             </button>
                         </div>
-
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#"></a></li>
-                                <li><a href="#"></a></li>
-                                <li><a href="#"></a></li>
-                                <li><a href="#"></a></li>
-                            </ul>
-                        </div>
+                        <h4 class="title-nav">Barcelona Neighborhood Map</h4>
+                       
                     </div>
                 </nav>
-                
-                
-<div id="map"></div>
-   
-                
-
-               
-
-                <div class="line"></div>
+                <div id="map"></div>
+               <div class="line"></div>
        <p>Powered by <a href="https://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a></p>
-         
-            </div>
-        </div>
-          <!--- jquery CDN -->
-         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-         <!-- Bootstrap Js CDN -->
-         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-         <!--Google Map API Key here with callback  and mapError -->
+       </div> 
+        
+
+
+
+        
+
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+        <!--Google Map API Key here with callback  and mapError -->
         <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbKyM8I6zVmTvKSb2sbtOEQvbmLfeRF8w&v=3&callback=initMap" onerror="mapError()">
         </script>
          <script src="js/app.js" charset="utf-8"></script>
           <script src="js/styles.js" charset="utf-8"></script>
-        <!-- sidebar js  -->
-         <script type="text/javascript">
-             $(document).ready(function () {
-                 $('#sidebarCollapse').on('click', function () {
-                     $('#sidebar').toggleClass('active');
-                 });
-             });
-         </script>
-        
-         
+        <!-- SIDEBAR COLLAPSE -->
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#sidebar").mCustomScrollbar({
+                    theme: "minimal"
+                });
+
+                $('#dismiss, .overlay').on('click', function () {
+                    $('#sidebar').removeClass('active');
+                    $('.overlay').fadeOut();
+                });
+
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').addClass('active');
+                    $('.overlay').fadeIn();
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+            });
+        </script>
     </body>
 </html>
