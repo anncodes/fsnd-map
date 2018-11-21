@@ -51,6 +51,7 @@ var bounds = new google.maps.LatLngBounds();
 	marker.addListener('click', function() {
 		populateInfoWindow(this, infoWindow);
 		infoWindow.setContent('');
+		'#sidebarCollapse'.on();
 	});
 
 	bounds.extend(markers[i].position);
@@ -62,38 +63,41 @@ var bounds = new google.maps.LatLngBounds();
 function populateInfoWindow(marker, infoWindow) { 
 	var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wikiCallback';
     // In case Wikipedia fails
-    var wikiRequestTimeout = setTimeout(function(){
+    /* var wikiRequestTimeout = setTimeout(function(){
 		infoWindow.setContent("failed to get wikipedia resources");
-	}, 8000);
+	}, 8000);  */
 
 	$.ajax({
 		url: wikiUrl,
-		dataType: "jsonp",
-		success: function(data) {
-			console.log(data);
-
-			var artUrl = data[3][0];
-			var artExtract = data[2][0];
-      //if the article URL is declared as undefined, the infowindow will display the location on my listing above.
-			if (artUrl == undefined) {
-				infoWindow.setContent('no Wikipedia content match');
-				infoWindow.open(map, marker);
-      //if it matches a Wiki content, then infoWindow will be populated by Wiki article extract and article URL.
-			}else{
-				infoWindow.marker = marker;
-				infoWindow.setContent('<h4>'+marker.title+'</h4>'+'<p>'+ artExtract+'</p>'+'<a href="'+artUrl+'">'+artUrl+'</a>');
-                infoWindow.open(map, marker);
-			};
-		    clearTimeout(wikiRequestTimeout);
-	        //sets animation to bounce twice when marker is clicked
-		    marker.setAnimation(google.maps.Animation.BOUNCE);
-		    setTimeout(function(){
-			   marker.setAnimation(null);
-		}, 2130);
-		}
-
+		dataType: "jsonp"
 	})
+	.done(function(data) {
+		console.log(data);
+
+		var artUrl = data[3][0];
+		var artExtract = data[2][0];
+
+		//if the article URL is declared as undefined, the infowindow will display the location on my listing above.
+		if (artUrl == undefined) {
+			infoWindow.setContent('<h4>'+ marker.title + '</h4>' + 'No Wikipedia content match');
+			infoWindow.open(map, marker);
+		}else{
+			//if it matches a Wiki content, then infoWindow will be populated by Wiki article extract and article URL.
+		    infoWindow.marker = marker;
+		    infoWindow.setContent('<h4>'+marker.title+'</h4>'+'<p>'+ artExtract+'</p>'+'<a href="'+artUrl+'">'+'Link to Wikipedia article'+'</a>');
+            infoWindow.open(map, marker);
+            
+            //sets animation to bounce twice when marker is clicked
+			marker.setAnimation(google.maps.Animation.BOUNCE);
+			setTimeout(function(){
+			marker.setAnimation(null);
+			}, 2130);
+			};
+		}).fail(function() {
+		    alert("There is an issue loading the Wikipedia API.");
+	 });
 }
+
 //Building my location	
 var Location = function(data){
   var self = this;
@@ -140,6 +144,6 @@ ViewModel = new ViewModel();
 
 ko.applyBindings(ViewModel);
 //Google Map error stand-alone function
-this.mapError = function(){
+mapError = function(){
   	alert("Google maps failed to load.  Please check your internet connection or try again to load.")
   }
