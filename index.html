@@ -30,7 +30,7 @@
                     <h3>Barcelona Neighborhood Map</h3>
                 </div>
 
-                <input placeholder="Search" id="searchbar" type="search" data-bind="textInput: filterString, valueUpdate: 'afterkeydown'"/ >
+                <input placeholder="Search" id="searchbar" type="search" data-bind="textInput: filterString"/ >
                 <ul class="list-unstyled components" data-bind="foreach:myLocations">
                     <li data-bind="text: title, click:$parent.showLocation, visible: show"></li>
                     
@@ -54,10 +54,12 @@
                        
                     </div>
                 </nav>
-                <div id="map"></div>
+                <div id="map">
+                    
+                </div>
                <div class="line"></div>
-       <p>Powered by <a href="https://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a></p>
-       </div> 
+                    <p>Powered by <a href="https://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a></p>
+                </div> 
         
 
 
