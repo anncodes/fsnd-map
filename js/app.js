@@ -51,7 +51,6 @@ var bounds = new google.maps.LatLngBounds();
 	marker.addListener('click', function() {
 		populateInfoWindow(this, infoWindow);
 		infoWindow.setContent('');
-		'#sidebarCollapse'.on();
 	});
 
 	bounds.extend(markers[i].position);
